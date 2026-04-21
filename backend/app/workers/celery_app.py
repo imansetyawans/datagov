@@ -1,0 +1,16 @@
+from celery import Celery
+from app.config import settings
+
+celery_app = Celery(
+    "datagov",
+    broker=settings.celery_broker_url,
+    backend=settings.celery_result_backend,
+)
+
+celery_app.config_from_object({
+    "task_serializer": "json",
+    "result_serializer": "json",
+    "accept_content": ["json"],
+    "timezone": "UTC",
+    "enable_utc": True,
+})
